@@ -66,7 +66,7 @@ public class SimpleTcpServer {
 
         LOGGER.info(String.format("Server started at port %d. PID: %d. Awaiting new client to connect...", this.port, currentProcess));
 
-        final Socket client = serverSocker.accept();
+        final Socket client = serverSocker.accept(); // Esta é uma chamada bloqueante
         LOGGER.info(String.format("New client connected: %s", client.getRemoteSocketAddress()));
 
         final PrintWriter out = new PrintWriter(client.getOutputStream(), true);

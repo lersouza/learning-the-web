@@ -1,4 +1,4 @@
-package net.learning.bls;
+package com.ciandt.webl.aplos;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,18 +10,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HttpRequest {
-    private static final Pattern REQUEST_LINE = Pattern.compile("(GET|POST|PUT|PATCH|OPTIONS|DELETE|TRACE|CONNECT|HEAD) (.*) (HTTP/1.1)");
-    private static final Pattern HEADER_ENTRY = Pattern.compile("(.*):\\s*(.*)"); 
+    private static final Pattern REQUEST_LINE = Pattern
+            .compile("(GET|POST|PUT|PATCH|OPTIONS|DELETE|TRACE|CONNECT|HEAD) (.*) (HTTP/1.1)");
+    private static final Pattern HEADER_ENTRY = Pattern.compile("(.*):\\s*(.*)");
 
     private String method;
     private String path;
     private String protocolVersion;
-    private Map<String, String> headers;
+    private Map<String, String> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private String body;
-
-    private HttpRequest() {
-        this.headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    }
 
     public static HttpRequest fromInputStream(InputStream inputStream) throws MalformedRequestException, IOException {
         HttpRequest request = new HttpRequest();
@@ -70,40 +67,43 @@ public class HttpRequest {
         return request;
     }
 
-    public String toString() {
-     
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(String.format("%s %s %s\n", getMethod(), getPath(), getProtocolVersion()));
-
-        for(String headerKey : this.headers.keySet()) {
-            builder.append(headerKey).append(": ").append(this.headers.get(headerKey)).append("\n");
-        }
-
-        if(getBody() != null && !getBody().isEmpty()) {
-            builder.append("\n").append(getBody());
-        }
-
-        return builder.toString();
-    }
-
     public String getBody() {
         return body;
     }
 
-    public String getMethod() {
-        return method;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public String getPath() {
-        return path;
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
     public String getProtocolVersion() {
         return protocolVersion;
     }
 
-    public Map<String,String> getHeaders() {
-        return headers;
+    public void setProtocolVersion(String protocolVersion) {
+        this.protocolVersion = protocolVersion;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getUserAgent() {
+        return this.headers.getOrDefault("User-Agent", "");
     }
 }
