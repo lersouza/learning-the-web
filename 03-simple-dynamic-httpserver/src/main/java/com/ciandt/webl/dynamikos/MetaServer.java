@@ -89,10 +89,14 @@ public final class MetaServer {
                         }
                     }
 
-                    final Object controllerInstance = controllerClass.newInstance();
+                    final Object controllerInstance = controllerClass.getDeclaredConstructor().newInstance();
                     final HttpResponse response = (HttpResponse) method.invoke(controllerInstance, parameters.toArray());
                     
                     return response;
+                }
+                catch(NoSuchMethodException | SecurityException ne) {
+                    LOGGER.warning("No default Constructor found in Controller");
+                    return HttpResponse.INTERNAL_SERVER_ERROR;
                 }
                 catch(InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
                     LOGGER.log(Level.WARNING, String.format("Could not invocate method: %s", ex.getMessage()));
