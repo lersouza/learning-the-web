@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     }
 
     // final ServerSocket serverSocker = new ServerSocket(this.port, this.backlog, this.host);
-    listen(socketfd, 10);
+    listen(socketfd, 1);
     printf("Server started at port %d. PID: %d. Awaiting new client to connect...\r\n", 8080, -1);
 
     struct sockaddr_in client_address;

@@ -26,7 +26,7 @@ public class SimpleTcpServer {
     public SimpleTcpServer(final String host, final int port) throws UnknownHostException {
         this.host = InetAddress.getByName(host);
         this.port = port;
-        this.backlog = 10;
+        this.backlog = 1;
     }
 
     private int getFileDescriptor(final InputStream input) throws IOException {

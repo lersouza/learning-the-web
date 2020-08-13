@@ -24,7 +24,7 @@ public class AplosServer {
     public AplosServer(final String host, final int port) throws UnknownHostException {
         this.address = InetAddress.getByName(host);
         this.port = port;
-        this.backlog = 10;
+        this.backlog = 3;
     }
 
     public void run() throws IOException {
